@@ -2,20 +2,21 @@ docker build -t flask-k8s-app .
 
 docker login
 
-docker tag flask-k8s-app yourusername/flask-k8s-app
+docker tag flask-k8s-app pranavtdhote/flask-k8s-app
 
-docker push yourusername/flask-k8s-app
+docker push pranavtdhote/flask-k8s-app
 
-minikube start --driver=docker
+minikube start --driver=docker --kubernetes-version=v1.30.0
 kubectl get nodes
 
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
-
 minikube service flask-service
 
 kubectl scale deployment flask-deployment --replicas=4
 kubectl get pods
+
+kubectl delete pod <pod-name>
 
 
 Minikube Install:
@@ -29,12 +30,17 @@ choco install minikube -y
 
 
 Auto Scaling:
-kkubectl autoscale deployment flask-deployment --cpu=50% --min=2 --max=5
+kubectl apply -f hpa.yaml
+kkubectl autoscale deployment flask-deployment --cpu=50% --min=2 --max=5(direct command)
+kubectl run -i --tty load-generator --rm --image=busybox -- /bin/sh
+    ----while true; do wget -q -O- http://flask-service:5000; done  
 kubectl get hpa
 
 Update Docker Image:
 docker build -t pranavtdhote/flask-k8s-app:v2 .
 docker push pranavtdhote/flask-k8s-app:v2
+kubectl describe deployment flask-deployment
+kubectl rollout undo deployment/flask-deployment
 
 kubectl set image deployment/flask-deployment flask-container=pranavtdhote/flask-k8s-app:v2
 kubectl delete pod <pod_name>

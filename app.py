@@ -12,7 +12,7 @@ template = """
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #543eea, #711ba2);
             color: #333;
             margin: 0;
             padding: 0;

@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
       - name: flask-container
-        image: pranavtdhote/flask-k8s-app
+        image: pranavtdhote/flask-k8s-app:v2
         ports:
         - containerPort: 5000
