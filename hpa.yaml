@@ -3,6 +3,8 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: flask-hpa
 
+
+
 spec:
   scaleTargetRef:
     apiVersion: apps/v1

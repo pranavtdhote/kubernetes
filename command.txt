@@ -35,6 +35,10 @@ kkubectl autoscale deployment flask-deployment --cpu=50% --min=2 --max=5(direct 
 kubectl run -i --tty load-generator --rm --image=busybox -- /bin/sh
     ----while true; do wget -q -O- http://flask-service:5000; done  
 kubectl get hpa
+minikube addons enable metrics-server
+kubectl get deployment metrics-server -n kube-system
+minikube dashboard --url
+kubectl get hpa -w
 
 Update Docker Image:
 docker build -t pranavtdhote/flask-k8s-app:v2 .
@@ -44,3 +48,12 @@ kubectl rollout undo deployment/flask-deployment
 
 kubectl set image deployment/flask-deployment flask-container=pranavtdhote/flask-k8s-app:v2
 kubectl delete pod <pod_name>
+
+By Using Kubernetes Desktop
+kubectl config use-context docker-desktop
+kubectl get nodes
+kubectl config get-contexts
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl edit deployment metrics-server -n kube-system

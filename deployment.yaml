@@ -21,3 +21,9 @@ spec:
         image: pranavtdhote/flask-k8s-app:v2
         ports:
         - containerPort: 5000
+
+        resources:
+          requests:
+            cpu: "200m"
+          limits:
+            cpu: "500m"
